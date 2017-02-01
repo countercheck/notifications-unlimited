@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+    <h1>Marvel Unlimited Series:</h1>
+    <p><a href="http://marvel.com">Data provided by Marvel. © 2017 MARVEL</a></p>
+    <div id="results"></div>
+    <div id="status"></div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-database.js"></script>
+    <script src="api-key.js"></script>
+    <script>
+      // Initialize Firebase
+      firebase.initializeApp(config);
+      // Get a reference to the database service
+      var database = firebase.database();
+    </script>
+
+    <script id="reportTemplate" type="text/x-handlebars-template">
+      <div class="comic">
+        <img src="{{pics}}" class="thumb">
+        <h1>{{seriesName}}</h1>
+        <p>
+        {{description}}<br>
+        <a href="{{link}}">Read Now</a>
+        </p>
+        <p>Series ID: {{seriesID}}</p>
+      </div>
+    </script>
+
+    <script src="app-today.js"></script>
+
+    </body>
+</html>
