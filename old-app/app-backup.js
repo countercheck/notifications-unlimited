@@ -3,39 +3,14 @@ $(document).ready(function() {
   //default not avail image
   var IMAGE_NOT_AVAIL = "cover-not-available.png";
 
-  $("#marvelButton").click(function() {
-    pullSeriesFromMarvel();
-  });
-
-  $("#firebaseButton").click(function() {
-    displaySeriesData();
+  $("#goButton").click(function() {
+    doTheStuff();
   });
 
   function getComicData() {
       var url = "https://gateway.marvel.com:443/v1/public/comics?hasDigitalIssue=true&orderBy=-onsaleDate&limit=100&offset=1&apikey=6b1901269411901652a868c9764ce72f";
       console.log('Requesting Data');
       return $.get(url);
-  }
-
-  function displaySeriesData() {
-    var $results = $("#results");
-    var $status = $("#status");
-
-    var templateSource = $("#reportTemplate").html();
-    var template = Handlebars.compile(templateSource);
-    $status.html("");
-
-    var html = template({});
-
-    var seriesRef = firebase.database().ref('series').once('value').then(function(snapshot) {
-      console.log(snapshot.val());
-
-      _.forEach(snapshot.val(), function(series, id) {
-        console.log(series);
-        html = template(series);
-        $results.append(html);
-      });
-    });
   }
 
   function getSeriesData(offset) {
@@ -46,13 +21,27 @@ $(document).ready(function() {
 
   function getAllSeriesData() {
     var promises = [];
-    for (var i = 1000; i < 2000; i+=100) {
+    for (var i = 0; i < 1000; i+=100) {
       promises.push(getSeriesData(i));
     }
     $.when.apply($,promises).done(function() {
 
       var args = Array.prototype.slice.call(arguments, 0);
+      var $results = $("#results");
+      var $status = $("#status");
 
+      var templateSource = $("#reportTemplate").html();
+      var template = Handlebars.compile(templateSource);
+      $status.html("");
+
+      var stats = {};
+      stats.seriesName = "";
+      stats.seriesID = "";
+      stats.link = "";
+      stats.pics = "";
+      stats.description = "";
+
+      var html = template(stats);
       for(var x=0;x<92;x++) {
         var res = args[x][0];
         if(res.code === 200 || res.code === 304) {
@@ -60,7 +49,27 @@ $(document).ready(function() {
             var series = res.data.results[a];
             console.log(series);
 
+            if(series.thumbnail && series.thumbnail.path != IMAGE_NOT_AVAIL)  {
+              stats.pics = series.thumbnail.path + "." + series.thumbnail.extension;
+            }
+            else {
+              stats.pics = IMAGE_NOT_AVAIL;
+            }
 
+            //Set Series Name
+            stats.seriesName = series.title;
+
+            //Set Series ID
+            stats.seriesID = series.id;
+
+            //Set Comic link
+            stats.link = series.resourceURI;
+
+            //Set Comic Description
+            stats.description = series.description;
+
+            html = template(stats);
+            $results.append(html);
             writeSeriesData(series);
           }
         }
@@ -86,7 +95,7 @@ $(document).ready(function() {
   //   });
   // }
 
-  function pullSeriesFromMarvel() {
+  function doTheStuff() {
 
       var $results = $("#results");
       var $status = $("#status");
