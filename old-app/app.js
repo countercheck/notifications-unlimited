@@ -106,14 +106,18 @@ function writeSeriesData(series) {
 function subscribe(seriesId) {
   console.log("checked");
   console.log("Series is: " + seriesId);
+  var seriesList = "";
   var user = firebase.auth().currentUser;
   if (user != null) {
     uid = user.uid;
+    seriesList = user.photoURL;
     console.log("User is: " + uid);
   }
-  console.log("Subscribe function is getting called with user: " + uid + " and series: " + seriesId);
+  seriesList += "|";
+  seriesList += seriesId;
+  console.log("Subscribe function is getting called with user: " + uid + " and series: " + seriesList);
   user.updateProfile({
-    photoURL: seriesId // THIS IS THE ONLY PLACE WE CAN STORE CUSTOM USER DATA
+    photoURL: seriesList // THIS IS THE ONLY PLACE WE CAN STORE CUSTOM USER DATA
   }).then(function() {
     // Update successful.
   }, function(error) {
