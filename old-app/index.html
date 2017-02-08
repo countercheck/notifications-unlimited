@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width">
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
@@ -15,7 +16,6 @@
     <p><a href="http://marvel.com">Data provided by Marvel. © 2017 MARVEL</a></p>
     <button id="marvelButton" type="button">Pull Series From Marvel!</button>
     <button id="firebaseButton" type="button">Read Series From Firebase!</button>
-
     <div id="results"></div>
     <div id="status"></div>
 
@@ -57,11 +57,19 @@
     <script id="reportTemplate" type="text/x-handlebars-template">
       <div class="comic">
         <h1>{{title}}</h1>
-        <p>
+        <!--<p>
         {{description}}<br>
         <a href="{{resourceURI}}">Read Now</a>
         </p>
-        <p>Series ID: {{id}}</p>
+        <p>Series ID: {{id}}</p>-->
+        <div class="subscribeButton" onclick="subscribe({{id}})">
+          <form>
+            <label for="check-{{id}}" data-id="{{id}}">
+              <input type="checkbox" value="{{id}}" id="check-{{id}}">
+              <span>Subscribe</span>
+            </label>
+          </form>
+        </div>
       </div>
     </script>
 

@@ -1,0 +1,55 @@
+body {
+  background: #333;
+  color: #FFF;
+  font-family: 'Open Sans', sans-serif;
+}
+
+div.comic {
+  border-bottom: 1px solid #666;
+  height: 40px;
+  clear: both;
+}
+
+div.comic h1 {
+  float: left;
+  font-size: 16px;
+}
+
+div.comic input {
+  float: right;
+}
+
+input[type=checkbox] {
+	visibility: hidden;
+}
+
+.subscribeButton {
+  background-color:#2576B7;
+  float:right;
+  color: #FFF;
+}
+
+.subscribeButton:hover {
+  background:#1E659E;
+  cursor: pointer;
+}
+
+.subscribeButton label {
+  float:left;
+}
+
+.subscribeButton label span {
+  text-align:center;
+  padding:3px 10px;
+  display:block;
+}
+
+.subscribeButton label input {
+  position:absolute;
+  top:-20px;
+}
+
+.subscribeButton input:checked + span {
+  background-color:#B3252E;
+  color:#FFF;
+}
